@@ -1,3 +1,4 @@
+using NotaMicro.Repository;
 using NotaMicro.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ builder.Services.AddHttpClient<IAtividadeService, AtividadeService>(c =>
 builder.Services.AddHttpClient<IDisciplinaService, DisciplinaService>(c =>
          c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:DisciplinaAPI"])
     );
+builder.Services.AddScoped<INotaRepository, NotaRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -31,12 +31,6 @@ namespace AtividadeMicro.Controllers
         {
             return _repository.ListAllAtividadesByTurma(id);
         }
-        //[HttpGet]
-        //public async Task<IActionResult> ProductIndex()
-        //{
-        //    var products = await _service.FindAllProducts();
-        //    return Ok(products);
-        //}
         [HttpPost]
         public async Task<ActionResult<Atividade>> Create([FromBody]Atividade atividade)
         {
@@ -47,30 +41,37 @@ namespace AtividadeMicro.Controllers
                 var disciplina = await _disciplina.FindDisciplinaById(atividade.DisciplinaId);
                 if(disciplina == null) return BadRequest();
 
-                atividade.Resposta = "";
-                atividade.Id = Guid.NewGuid();
-                atividade.Concluida = false;
-                var newatividade = await _repository.CreateAtividade(atividade);
-                disciplina.TarefasId.Add(atividade.Id);
-                await _disciplina.UpdateDisciplina(disciplina);
                 
-                return Ok(newatividade);
+                foreach(Guid idAluno in disciplina.AlunosId)
+                {
+                    var newAtividade = new Atividade();
+                    newAtividade.Id = Guid.NewGuid();
+                    newAtividade.Enunciado = atividade.Enunciado;
+                    newAtividade.DataSubmissao = DateTime.Today;
+                    newAtividade.Prazo = atividade.Prazo;
+
+                    newAtividade.AlunoId = idAluno;
+                    newAtividade.DisciplinaId = disciplina.Id;
+                    newAtividade.Resposta = "";
+                    newAtividade.Concluida = false;
+                    await _repository.CreateAtividade(newAtividade);
+                    disciplina.TarefasId.Add(newAtividade.Id);
+                    await _disciplina.UpdateDisciplina(disciplina);
+                }             
+                return Ok();
             }catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
-            
         }
         [HttpPost("submit/{id}")]
-        public async Task<ActionResult<Atividade>> SubmitAtividade([FromBody] SubmitAtividade subAtividade, [FromHeader] Guid id)
+        public async Task<ActionResult<Atividade>> SubmitAtividade([FromBody] SubmitAtividade subAtividade, Guid id)
         {
 
             if (subAtividade == null) return BadRequest();
             try
             {
-                var sub = await _repository.SubmitAtividade(subAtividade, id);
-                var atividade = _repository.FindAtividadeById(id);
+                var atividade = await _repository.SubmitAtividade(subAtividade, id);
                 if (atividade.Concluida)
                 {
                     Nota nota = new Nota()
@@ -78,12 +79,12 @@ namespace AtividadeMicro.Controllers
                         AlunoId = atividade.AlunoId,
                         DisciplinaId = atividade.DisciplinaId,
                         AtividadeId = atividade.Id,
-                        Id = Guid.NewGuid(),
+                        Id = Guid.NewGuid(),    
 
                     };
                     await _nota.CreateNota(nota);
                 }
-                return Ok(sub);
+                return Ok(atividade);
             }
             catch (Exception ex)
             {

@@ -45,7 +45,7 @@ namespace TP3Micro.Repository
                 if (oldAtividade.Id == id)
                 {
                     oldAtividade.Resposta = atividade.Resposta;
-                    oldAtividade.DataSubmissao = atividade.DataSubmissao;
+                    oldAtividade.DataConclusao = DateTime.Today;
                     oldAtividade.Concluida = true;
                     return Task.FromResult(oldAtividade);
 
