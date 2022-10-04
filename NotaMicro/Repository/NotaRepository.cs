@@ -1,5 +1,5 @@
-﻿using NotaMicro.Model;
-using System.Text;
+﻿using Microsoft.AspNetCore.Routing.Constraints;
+using NotaMicro.Model;
 
 namespace NotaMicro.Repository
 {
@@ -16,13 +16,13 @@ namespace NotaMicro.Repository
             return Task.FromResult(nota);
         }
 
-        public Task<Nota> UpdateNota(Nota nota)
+        public Task<Nota> UpdateNota(float notanova, Guid notaId)
         {
             foreach (Nota oldNota in notaList)
             {
-                if (oldNota.Id == nota.Id)
+                if (oldNota.Id == notaId)
                 {
-                    //oldNota.NotaFinal = NotaRecebidaRabbit();
+                    oldNota.NotaFinal = notanova;
                     return Task.FromResult(oldNota);
 
                 }
@@ -40,32 +40,5 @@ namespace NotaMicro.Repository
             var nota = notaList.Where(x => x.Id == id).FirstOrDefault();
             return nota;
         }
-        //public string NotaRecebidaRabbit()
-        //{
-        //    var factory = new ConnectionFactory() { HostName = "localhost" };
-
-        //    using var connection = factory.CreateConnection();
-
-        //    using var channel = connection.CreateModel();
-
-        //    channel.QueueDeclare(
-        //        queue: "letterbox",
-        //        durable: false,
-        //        exclusive: false,
-        //        autoDelete: false,
-        //        arguments: null);
-
-        //    var consumer = new EventingBasicConsumer(channel);
-        //    var NotaRecebida = "";
-        //    consumer.Received += (model, ea) =>
-        //    {
-        //        var body = ea.Body.ToArray();
-        //        var message = Encoding.UTF8.GetString(body);
-        //        NotaRecebida = message;
-        //    };
-
-        //    channel.BasicConsume(queue: "letterbox", autoAck: true, consumer: consumer);
-        //    return NotaRecebida;
-        //}
     }
 }

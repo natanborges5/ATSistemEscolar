@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <Compile Remove="Service\PessoaService\**" />
+    <Content Remove="Service\PessoaService\**" />
+    <EmbeddedResource Remove="Service\PessoaService\**" />
+    <None Remove="Service\PessoaService\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Service\PessoaService\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
 </Project>

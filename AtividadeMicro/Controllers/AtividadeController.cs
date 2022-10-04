@@ -1,4 +1,5 @@
 ﻿using AtividadeMicro.Model;
+using AtividadeMicro.RabbitService;
 using AtividadeMicro.Service.DisciplinaService;
 using AtividadeMicro.Service.NotaService;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,7 @@ namespace AtividadeMicro.Controllers
                     newAtividade.DataSubmissao = DateTime.Today;
                     newAtividade.Prazo = atividade.Prazo;
 
+                    newAtividade.DataConclusao = default(DateTime);
                     newAtividade.AlunoId = idAluno;
                     newAtividade.DisciplinaId = disciplina.Id;
                     newAtividade.Resposta = "";
@@ -67,8 +69,7 @@ namespace AtividadeMicro.Controllers
         [HttpPost("submit/{id}")]
         public async Task<ActionResult<Atividade>> SubmitAtividade([FromBody] SubmitAtividade subAtividade, Guid id)
         {
-            Nota nota2 = new Nota();
-            await _nota.CreateNota(nota2);
+
             if (subAtividade == null) return BadRequest();
             try
             {
@@ -84,11 +85,6 @@ namespace AtividadeMicro.Controllers
 
                     };
                     await _nota.CreateNota(nota);
-                    Random notaAleatoria = new Random();
-                    notaAleatoria.Next(1, 10);
-                    //_repository.ProducerRabbit(notaAleatoria.ToString());
-                    await _nota.UpdateNota(nota);
-
                 }
                 return Ok(atividade);
             }
@@ -96,8 +92,6 @@ namespace AtividadeMicro.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
-
         }
     }
 }

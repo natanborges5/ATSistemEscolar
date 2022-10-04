@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotaMicro.Model;
+using NotaMicro.RabbitService;
 using NotaMicro.Repository;
 using NotaMicro.Service;
 
@@ -12,13 +13,15 @@ namespace NotaMicro.Controllers
         private INotaRepository _repository;
         private IDisciplinaService _disciplina;
         private IAtividadeService _atividade;
+        private IMessageProducer _messagePublisher;
 
 
-        public NotaController(INotaRepository repository, IDisciplinaService disciplinaService,IAtividadeService atividade)
+        public NotaController(INotaRepository repository, IDisciplinaService disciplinaService,IAtividadeService atividade, IMessageProducer messageProducer)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _disciplina = disciplinaService;
             _atividade = atividade;
+            _messagePublisher = messageProducer;
 
         }
         [HttpGet]
@@ -40,13 +43,13 @@ namespace NotaMicro.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut]
-        public async Task<ActionResult<Nota>> ReceberNota(Nota nota)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> SubmitNota([FromBody]float notaNova,Guid id)
         {
-            var newNota = await _repository.UpdateNota(nota);
-            return Ok(newNota);
-                
+            _repository.UpdateNota(notaNova,id);
+            var notaSend = _repository.FindNotaById(id);
+            _messagePublisher.SendMessage(notaSend);
+            return Ok("Nota Modificada");
         }
-
     }
 }

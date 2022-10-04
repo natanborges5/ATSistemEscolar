@@ -7,8 +7,7 @@ namespace NotaMicro.Repository
         IEnumerable<Nota> ListAllNotas();
         Nota FindNotaById(Guid id);
         Task<Nota> CreateNota(Nota disciplina);
-        Task<Nota> UpdateNota(Nota disciplina);
+        Task<Nota> UpdateNota(float notanova, Guid notaId);
         Task<bool> DeleteNota(Guid id);
-        //public string NotaRecebidaRabbit();
     }
 }

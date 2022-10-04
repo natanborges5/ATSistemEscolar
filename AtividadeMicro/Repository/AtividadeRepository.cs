@@ -1,6 +1,4 @@
 ﻿using AtividadeMicro.Model;
-//using RabbitMQ.Client;
-using System.Text;
 
 namespace TP3Micro.Repository
 {
@@ -55,26 +53,5 @@ namespace TP3Micro.Repository
             }
             return null;
         }
-
-        //public string ProducerRabbit(string mensagem)
-        //{
-        //    var factory = new ConnectionFactory() { HostName = "localhost" };
-
-        //    using var connection = factory.CreateConnection();
-
-        //    using var channel = connection.CreateModel();
-
-        //    channel.QueueDeclare(
-        //        queue: "letterbox",
-        //        durable: false,
-        //        exclusive: false,
-        //        autoDelete: false,
-        //        arguments: null);
-
-        //    var body = Encoding.UTF8.GetBytes(mensagem);
-
-        //    channel.BasicPublish("", "letterbox", null, body);
-        //    return "Mensagem enviada: "+ mensagem;
-        //}
     }
 }

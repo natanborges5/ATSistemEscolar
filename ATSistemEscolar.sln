@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtividadeMicro", "Atividade
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PessoasMicro", "PessoasMicro\PessoasMicro.csproj", "{E625B2BE-DDD8-4AC2-8C81-BD7CD40E64D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotaMicro", "NotaMicro\NotaMicro.csproj", "{B20691C9-D267-4273-B446-CFDF81DBBF8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotaMicro", "NotaMicro\NotaMicro.csproj", "{B20691C9-D267-4273-B446-CFDF81DBBF8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,6 +10,5 @@ namespace TP3Micro.Repository
          Task<Atividade> CreateAtividade(Atividade atividade);
          Task<Atividade> SubmitAtividade(SubmitAtividade atividade, Guid id);
          void DeleteAtividade(Guid id);
-        //string ProducerRabbit(string mensagem);
     }
 }
