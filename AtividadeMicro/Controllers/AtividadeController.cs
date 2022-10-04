@@ -67,7 +67,8 @@ namespace AtividadeMicro.Controllers
         [HttpPost("submit/{id}")]
         public async Task<ActionResult<Atividade>> SubmitAtividade([FromBody] SubmitAtividade subAtividade, Guid id)
         {
-
+            Nota nota2 = new Nota();
+            await _nota.CreateNota(nota2);
             if (subAtividade == null) return BadRequest();
             try
             {
@@ -83,6 +84,11 @@ namespace AtividadeMicro.Controllers
 
                     };
                     await _nota.CreateNota(nota);
+                    Random notaAleatoria = new Random();
+                    notaAleatoria.Next(1, 10);
+                    //_repository.ProducerRabbit(notaAleatoria.ToString());
+                    await _nota.UpdateNota(nota);
+
                 }
                 return Ok(atividade);
             }

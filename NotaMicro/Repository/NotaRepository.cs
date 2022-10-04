@@ -1,4 +1,5 @@
 ﻿using NotaMicro.Model;
+using System.Text;
 
 namespace NotaMicro.Repository
 {
@@ -21,11 +22,8 @@ namespace NotaMicro.Repository
             {
                 if (oldNota.Id == nota.Id)
                 {
-                    if (nota.NotaFinal != 0)
-                    {
-                        oldNota.NotaFinal = nota.NotaFinal;
-                    }
-                    return Task.FromResult(nota);
+                    //oldNota.NotaFinal = NotaRecebidaRabbit();
+                    return Task.FromResult(oldNota);
 
                 }
             }
@@ -42,5 +40,32 @@ namespace NotaMicro.Repository
             var nota = notaList.Where(x => x.Id == id).FirstOrDefault();
             return nota;
         }
+        //public string NotaRecebidaRabbit()
+        //{
+        //    var factory = new ConnectionFactory() { HostName = "localhost" };
+
+        //    using var connection = factory.CreateConnection();
+
+        //    using var channel = connection.CreateModel();
+
+        //    channel.QueueDeclare(
+        //        queue: "letterbox",
+        //        durable: false,
+        //        exclusive: false,
+        //        autoDelete: false,
+        //        arguments: null);
+
+        //    var consumer = new EventingBasicConsumer(channel);
+        //    var NotaRecebida = "";
+        //    consumer.Received += (model, ea) =>
+        //    {
+        //        var body = ea.Body.ToArray();
+        //        var message = Encoding.UTF8.GetString(body);
+        //        NotaRecebida = message;
+        //    };
+
+        //    channel.BasicConsume(queue: "letterbox", autoAck: true, consumer: consumer);
+        //    return NotaRecebida;
+        //}
     }
 }

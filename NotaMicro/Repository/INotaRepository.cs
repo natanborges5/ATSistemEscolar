@@ -9,5 +9,6 @@ namespace NotaMicro.Repository
         Task<Nota> CreateNota(Nota disciplina);
         Task<Nota> UpdateNota(Nota disciplina);
         Task<bool> DeleteNota(Guid id);
+        //public string NotaRecebidaRabbit();
     }
 }

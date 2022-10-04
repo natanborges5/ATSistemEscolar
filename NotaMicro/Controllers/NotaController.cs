@@ -39,8 +39,14 @@ namespace NotaMicro.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
-
         }
+        [HttpPut]
+        public async Task<ActionResult<Nota>> ReceberNota(Nota nota)
+        {
+            var newNota = await _repository.UpdateNota(nota);
+            return Ok(newNota);
+                
+        }
+
     }
 }
